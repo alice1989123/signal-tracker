@@ -15,7 +15,7 @@ load_dotenv()
 
 
 
-models_to_notify = ["LSTMModel"]
+models_to_notify = ["RSIMomentumStrategy"]
 
 @retry(
     wait=wait_exponential(multiplier=1, min=1, max=60),
@@ -69,9 +69,10 @@ def handle_closure(conn, signal_id, coin, model, created_at, entry, exit_price, 
     profit = float(profit)
     record_closed_signal(conn, signal_id, coin, model, created_at, exit_price, closed_at, entry, outcome , profit)
     mark_signal_closed(conn, signal_id, entry, exit_price, closed_at, outcome)
-    msg = format_closure_message(outcome, coin, model, entry, exit_price, profit, closed_at)
-    send_telegram(msg)
-    sleep(1)
+    if model in models_to_notify:
+        msg = format_closure_message(outcome, coin, model, entry, exit_price, profit, closed_at)
+        send_telegram(msg)
+        sleep(1)
 
 def get_stored_klines(coin: str, start: str, end: str, interval: str = "1h") -> pd.DataFrame:
     start_ts = pd.to_datetime(start)
