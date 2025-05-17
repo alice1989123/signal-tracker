@@ -13,12 +13,17 @@ import requests
 import os
 load_dotenv()
 
+
+
+models_to_notify = ["LSTMModel"]
+
 @retry(
     wait=wait_exponential(multiplier=1, min=1, max=60),
     stop=stop_after_attempt(5),
     retry=retry_if_exception_type(requests.exceptions.RequestException),
     reraise=True
 )
+
 def send_telegram(msg: str):
     token = os.getenv("TELEGRAM_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
