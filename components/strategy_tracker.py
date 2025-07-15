@@ -80,12 +80,12 @@ def get_stored_klines(coin: str, start: str, end: str, interval: str = "1h") -> 
 
     conn = psycopg2.connect(
         dbname="crypto_predictions",
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        host=os.getenv("DB_HOST"),
+        user=os.getenv("DBUSER"),
+        password=os.getenv("DBPASSWORD"),
+        host=os.getenv("DBHOST"),
     )
 
-    engine = create_engine(f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/crypto_predictions")
+    engine = create_engine(f"postgresql://{os.getenv('DBUSER')}:{os.getenv('DBPASSWORD')}@{os.getenv('DBHOST')}/crypto_predictions")
 
     query = """
         SELECT open_time, close
@@ -155,9 +155,9 @@ def mark_signal_closed(conn, signal_id, entry_price, exit_price, closed_at, outc
 def process_open_signals():
     conn = psycopg2.connect(
         dbname="crypto_predictions",
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        host=os.getenv("DB_HOST"),
+        user=os.getenv("DBUSER"),
+        password=os.getenv("DBPASSWORD"),
+        host=os.getenv("DBHOST"),
     )
     cursor = conn.cursor()
 
