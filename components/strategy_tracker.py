@@ -25,8 +25,8 @@ models_to_notify = ["RSIMomentumStrategy"]
 )
 
 def send_telegram(msg: str):
-    token = os.getenv("TELEGRAM_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHANNEL_ID")
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = {"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}  
     response = requests.post(url, json=data)
